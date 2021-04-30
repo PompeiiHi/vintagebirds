@@ -25,4 +25,12 @@ conky: config file above put at /.config/conky/conky.conf just make sure to dele
   5. conky
   6. add conky to start at log in to shell
 
-theme: download from https://www.gnome-look.org/p/1482698/ place extracted folder in /.themes and select in xfce appearance and window manager
+theme: download vintagebirds.tar
+  1. install tar with sudo pacman -S tar
+  2. cd Downloads
+  3. tar -x -f vintagebirds.tar vintagebirds
+  4. place the resulting folder into /.themes
+  5. if directory does not exist yet create it
+      - sudo mkdir -p /.themes
+
+  theme will be available to select from xfce appearance and window manager settings apps
