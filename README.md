@@ -16,10 +16,11 @@ Wallpaper: download included above 2560x1440
 GDM: setting up automatic login so we never have to see it
   1. sudo nano /etc/gmd/custom.conf
   2. add the following lines to the file then save and exit
-    1. #Enable automatic login for user
-    2. [daemon]
-    3. AutomaticLogin=username
-    4. AutomaticLoginEnable=True
+
+  - #Enable automatic login for user
+  - [daemon]
+  - AutomaticLogin=username
+  - AutomaticLoginEnable=True
 
 xfce-terminal: transparency 75%
   - text #D5D5D5
