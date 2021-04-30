@@ -1,0 +1,244 @@
+CONNECTING TO WEB
+
+IF ON ETHERNET
+
+  1. ping www.google.com
+    - will test the connection, hit ctrl+c to end
+  2. clear
+  
+IF ON WIFI
+
+  1. iwctl
+  2. device list
+  3. station DEVICENAME connect NETWORKNAME
+  4. ping www.google.com
+  5. hit ctl c to end
+  6. clear
+
+FORMAT THE DRIVES
+
+  1. lsblk
+    - not the file address of the nvme you want to install on, ex. /dev/nvme0n1p1
+      cgdisk
+    - 600M EFI partition # Hex code ef00
+    - 100% size partiton # (to be encrypted) Hex code 8300
+
+CREATE EFI PARTITION
+
+  1. mkfs.vfat -F32 -n EFI /dev/nvme0n1p1
+
+SETUP ENCRYPTION (Optional)
+
+  1. cryptsetup --use-random luksFormat /dev/nvme0n1p2
+  2. cryptsetup luksOpen /dev/nvme0n1p2 luks
+
+SETUP LVM AND REMAINING PARTITIONS
+
+  1. pvcreate /dev/mapper/luks
+    - if not encrypted used device address instead /dev/nvme0n1p2 for example, same for the next line as well
+  2. vgcreate vg0 /dev/mapper/luks
+  3. lvcreate --size 16G vg0 --name swap
+  4. lvcreate -l +100%FREE vg0 --name root
+
+CREATE FILE SYSTEMS
+
+  1. mkfs.ext4 -L root /dev/mapper/vg0-root
+  2. mkswap /dev/mapper/vg0-swap
+  3. Mount the partitions
+  4. mount /dev/mapper/vg0-root /mnt
+  5. swapon /dev/mapper/vg0-swap
+  6. mkdir /mnt/boot
+  7. mount /dev/nvme0n1p1 /mnt/boot
+
+GRAB SOME NEEDED PACKAGES
+
+  1. pacstrap /mnt base base-devel bash nano git sudo efibootmgr dialog wpa_supplicant tmux 
+     intel-ucode network-manager-applet networkmanager linux linux-headers linux-firmware lvm2 dosfstools
+
+GENERATE FSTAB
+
+  1. genfstab -pU /mnt | tee -a /mnt/etc/fstab
+  2. nano /mnt/etc/fstab
+  3. change relatime on NON-BOOT partitions to noatime for reduced wear on SSD
+
+ENTER NEW SYSTEM
+
+  1. arch-chroot /mnt /bin/bash
+
+SETUP CLOCK
+
+  1. ln -s /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
+  2. hwclock --systohc --utc
+
+SET HOSTNAME
+
+  1. echo MYHOSTNAME > /etc/hostname
+
+GENERATE LOCALE INFO
+
+  1. nano /etc/locale.gen
+  2. locale-gen
+  3. localectl set-locale LANG=en_US.UTF-8
+  4. echo LANG=en_US.UTF-8 >> /etc/locale.conf
+  5. echo LC_ALL= >> /etc/locale.conf
+
+SET ROOT PASSWORD
+
+  1. passwd
+  
+ADD USER
+
+  1. groupadd MYUSERNAME
+  2. useradd -m -g MYUSERNAME -G wheel,storage,power,network,uucp -s /bin/bash MYUSERNAME
+  3. passwd MYUSERNAME
+
+CONFIGURE BOOT
+
+  1. Configure mkinitcpio
+  2. nano /etc/mkinitcpio.conf
+  3. Add 'ext4' to MODULES
+  4. Add 'encrypt' and 'lvm2' to HOOKS before filesystems
+     encrypt optional, only added if encrypted drive earlier
+  5. Add 'resume' after 'lvm2' (also has to be after 'udev')
+  6. ctrl o and ctrl x to save and exit
+  7. mkinitcpio -p linux
+
+SETUP SYSTEMBOOTD
+
+  1. bootctl --path=/boot install
+  2. echo default arch >> /boot/loader/loader.conf
+  3. echo timeout 5 >> /boot/loader/loader.conf
+  4. blkid
+     write down or take a picture of UUID for /dev/nvme0n1p2 or whatever your second partition is called 
+     it will go were the X’s are in the next part if you encrypted the drive
+  5. nano /boot/loader/entries/arch.conf
+  6. Add the following lines to the conf
+       
+       title Arch Linux
+       linux /vmlinuz-linux
+       initrd /intel-ucode.img
+       initrd /initramfs-linux.img
+       ONLY IF ENCRYPTED
+       options cryptdevice=UUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX:vg0 root=/dev/mapper/vg0-root resume=/dev/mapper/vg0-swap rw intel_pstate=no_hwp
+       IF NOT ENCRYPTED
+       options root=/dev/mapper/vg0-root resume=/dev/mapper/vg0-swap rw intel_pstate=no_hwp
+       
+   7. ctrl+o to save ctrl+x to exit
+
+REBOOT
+
+  1. exit
+  2. umount -R /mnt
+  3. swapoff -a
+  4. reboot
+  5. remove usb stick
+
+
+SETUP CONNECTIVITY
+
+  1. login as root
+  2. systemctl enable NetworkManager
+     - allows our internet to automatically start at boot
+  3. systemctl start NetworkManager
+     - starts our internet tools
+  4. ONLY IF ON WIFI SKIP IF ON ETHERNET
+     - nmcli device wifi list
+     - will display a list of wifi networks
+     - nmcli device wifi connect NetworkNameHere password PasswordHere
+     - login to the wifi
+     - ping www.google.com
+     - check for working internet, again ctrl+c to stop it
+
+UPDATE REPOS
+
+  1. nano /etc/pacman.conf
+  2. uncomment multib repo for steam
+  3. ctl o to write and ctl x to exit
+  4. pacman -Syyy
+  5. updates arch repos
+
+INSTALL GRAPHICS DRIVERS
+
+  1. pacman -S xorg-server
+     - xorg will power our graphics packages, enter through the defaults to install
+  2. lspci
+     - displays a list of hardware, look at the line with VGA to see what brand of video card your system has if you don’t already know
+  3. FOR INTEL
+     - pacman -S xf86-video-intel libgl mesa lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader
+  4. FOR NVIDIA
+     - pacman -S nvidia nvidia-lts nvidia-libgl mesa nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader
+  5. FOR ATI/AMD
+     - pacman -S mesa xf86-video-amdgpu lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader
+     - note: some cards need specific drivers check the arch wiki to be sure your specific card will work
+  6. FOR VIRTUALBOX
+     - pacman -S virtualbox-guest-utils virtualbox-guest-modules-arch mesa mesa-libgl
+
+SETUP GDM
+
+  1. pacman -S gdm
+  2. systemctl enable bluetooth.service
+  3. systemctl start bluetooth.service
+  4. systemctl enable gdm
+  5. systemctl status gdm
+  6. nano /etc/gdm/custom.conf
+  7. add the following to the file
+      
+      # Enable automatic login for user
+      [daemon]
+      AutomaticLogin=username
+      AutomaticLoginEnable=True
+  
+  8. ctl o to write ctl x to exit
+
+INSTALL XFCE & OTHER APPS
+  
+  1. pacman -S firefox libreoffice-fresh git bluez bluez-utils neofetch xfce4 xfce4-goodies 
+     rofi conky papirus-icon-theme openssh unzip zip unrar rar tar rhythmbox htop gparted
+     lutris steam
+
+SETUP SUDO
+
+  1. EDITOR=nano visudo
+     - add the line below to the file under the wheel group line to enable sudo privledges without a password
+     
+        %user ALL=(ALL) NOPASSWD: ALL
+        
+     - same thing but you will be prompted for a password
+     
+        %user ALL=(ALL) ALL
+     
+  2. ctrl+o and enter to write the change and ctrl+x to exit the editor.
+
+REBOOT
+
+  1. reboot
+
+SETUP BETTER MIRRORLIST
+
+  1. google pacman mirrorlist generator and copy a new list of 7-8 mirrors
+  2. cd /etc/pacman.d
+  3. sudo truncate -s 0 mirrorlist
+  4. sudo nano mirrorlist
+  5. uncomment 5 or so servers and ctrl+o and enter to save, ctrl+x to exit
+  6. sudo pacman -Syyy
+
+INSTALL PARU (FOR AUR)
+
+  1. cd Downloads
+  2. git clone https://aur.archlinux.org/paru.git
+  3. cd paru
+  4. makepkg -si
+  5. clear
+
+ADDING ADDITIONAL DRIVES
+
+  1. sudo fdisk -l
+     - note the location of the new drive e.g. /dev/nvme1n1p1 will be used as an example from here
+  2. sudo pvcreate /dev/nvme1n1p1
+  3. verify it was successful
+     - sudo lvmdiskscan -l
+  4. sudo vgextend /dev/mapper/vg0-root /dev/nvme1n1p1
+  5. sudo lvm lvextend -l +100%FREE /dev/vg0/root 
+  6. sudo resize2fs -p /dev/mapper/vg0-root
+  7. verify it worked
+     - df -H
