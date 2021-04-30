@@ -39,20 +39,5 @@ Fonts: do this before installing conky. Move the 4 ttf files above to /usr/local
   9. sudo fc-cache
   10. done
 
-conky: config file above put at /.config/conky/conky.conf just make sure to delete the HP percentage part if on a desktop
-  1. sudo pacman -S conky
-  2. open hidden /.config folder and create a folder for conky, inside the new folder open a terminal or cd /.config/conky
-  3. create config file nano conky.conf and copy the contents above into this file ctrl+o to write the changes and ctrl+x to exit
-  4. clear
-  5. conky
-  6. add conky to start at log in to shell
 
-theme: download vintagebirds.tar
-  1. install tar with sudo pacman -S tar
-  2. cd Downloads
-  3. tar -x -f vintagebirds.tar vintagebirds
-  4. place the resulting folder into /.themes
-  5. if directory does not exist yet create it
-      - sudo mkdir -p /.themes
 
-  theme will be available to select from xfce appearance and window manager settings apps
