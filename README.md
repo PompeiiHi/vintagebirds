@@ -1,8 +1,11 @@
 # vintagebirds
 set up for my desktop rice
-Distro: Arch
-DE: Xfce
-DM: gdm
+
+### Distro: Arch
+
+### DE: Xfce
+
+### DM: gdm
 
 ![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Screenshot_2021-04-29_11-37-42.png)
 
