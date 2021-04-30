@@ -3,7 +3,7 @@ set up for my desktop rice
 
 Wallpaper: download included above
 
-Rofi: default
+Rofi: coming soon
 
 Fonts: do this before installing conky. Move the 4 ttf files above to /usr/local/share/fonts you may need to create this file path first
 
