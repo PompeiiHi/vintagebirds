@@ -7,9 +7,9 @@ set up for my desktop rice
 
 ### DM: gdm
 
-![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Screenshot_2021-04-29_11-37-42.png)
+![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshot1.png)
 
-![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Screenshot_2021-04-29_11-37-29.png)
+![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshot2.png)
 
 Wallpaper: download included above 2560x1440
 
