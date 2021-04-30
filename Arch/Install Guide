@@ -194,7 +194,7 @@ INSTALL XFCE & OTHER APPS
   
   1. pacman -S firefox libreoffice-fresh git bluez bluez-utils neofetch xfce4 xfce4-goodies 
      rofi conky papirus-icon-theme openssh unzip zip unrar rar tar rhythmbox htop gparted
-     lutris steam
+     lutris steam gvfs udisks2
 
 SETUP SUDO
 
