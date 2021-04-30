@@ -1,0 +1,9 @@
+conky: config file above put at /.config/conky/conky.conf just make sure to delete the HP percentage part if on a desktop
+  1. sudo pacman -S conky
+  2. open hidden /.config folder and create a folder for conky, inside the new folder open a terminal or cd /.config/conky
+  3. create config file 
+     - nano conky.conf 
+     - and copy the contents of the config file in this folder onto this file ctrl+o to write the changes and ctrl+x to exit
+  4. clear
+  5. conky
+  6. add conky to start at log in to shell
