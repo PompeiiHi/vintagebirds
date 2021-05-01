@@ -1,4 +1,4 @@
-# vintagebirds
+# Beige Life
 set up for my desktop rice
 
   - Distro: Arch
