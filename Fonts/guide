@@ -7,5 +7,5 @@ Fonts: do this before installing conky. Move the 4 ttf files above to /usr/local
   6. chmod 444 /usr/local/share/fonts/"font file name.ttf"
   7. repeat for each font file
   8. chmod 555 /usr/local/share/fonts
-  9. sudo fc-cache
+  9. sudo fc-cache -f -v
   10. done
