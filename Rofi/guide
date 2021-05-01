@@ -1,0 +1,9 @@
+enable hidden files and go to /.config/rofi inside should be a file labeled config.
+
+Open a terminal here and type
+  nano config
+  
+Change the file path for the theme to just the word vintagebirds
+  ctrl+o to save and ctrl+x to exit
+  
+now type nano vintagebirds.rasi and paste the rofi config in this folder here. Save and exit.
