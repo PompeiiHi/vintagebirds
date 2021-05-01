@@ -5,9 +5,9 @@ set up for my desktop rice
   - DE: Xfce
   - DM: gdm
 
-![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshot1.png)
+![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshot4.png)
 
-![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshot2.png)
+![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshot5.png)
 
   - Dark Theme
 
