@@ -9,7 +9,7 @@ set up for my desktop rice
 
 ![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshots/Screenshot5.png)
 
-![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshots/Screenshot6.png)
+![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshots/Screenshot7.png)
 
 
 
