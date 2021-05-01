@@ -1,10 +1,9 @@
-credit for the theme goes to Paulxfce original files for his desert theme available at https://www.xfce-look.org/p/1449286/
+These themes are modifications of the following projects. https://www.xfce-look.org/p/1508004/ and https://www.xfce-look.org/p/1449286/
 
 
-    install tar with sudo pacman -S tar
+    install unzip with sudo pacman -S unzip
     cd Downloads
-    tar xopf vintagebirds.tar
-    place the resulting folder into /.themes
-    if directory does not exist yet create it
-        sudo mkdir -p /.themes
+    unzip filename.zip
+    
+    place the resulting folder in /user/.themes
 
