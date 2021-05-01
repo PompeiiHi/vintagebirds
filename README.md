@@ -5,13 +5,13 @@ set up for my desktop rice
   - DE: Xfce
   - DM: gdm
 
-![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshot4.png)
+![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshots/Screenshot4.png)
 
-![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshot5.png)
+![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshots/Screenshot5.png)
 
   - Dark Theme
 
-![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshot3.png)
+![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshots/Screenshot3.png)
 
 
 
