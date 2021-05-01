@@ -11,9 +11,6 @@ set up for my desktop rice
 
 ![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshots/Screenshot6.png)
 
-  - Dark Theme
-
-![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshots/Screenshot3.png)
 
 
 
