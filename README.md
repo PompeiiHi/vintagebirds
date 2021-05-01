@@ -9,7 +9,6 @@ set up for my desktop rice
 
 ![alt text](https://github.com/PompeiiHi/vintagebirds/blob/main/Pictures/Screenshot2.png)
 
-Rofi config coming soon
 
 
 
